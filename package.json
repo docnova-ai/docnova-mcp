@@ -1,0 +1,39 @@
+{
+  "name": "docnova-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for Docnova e-invoice platform",
+  "type": "module",
+  "bin": {
+    "docnova-mcp": "./dist/index.js"
+  },
+  "files": ["dist", "README.md"],
+  "author": "Docnova",
+  "license": "MIT",
+  "homepage": "https://github.com/docnova-ai/docnova-mcp#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/docnova-ai/docnova-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/docnova-ai/docnova-mcp/issues"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "inspect": "npx @modelcontextprotocol/inspector tsx src/index.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.7.0"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "keywords": ["mcp", "modelcontextprotocol", "docnova", "peppol", "einvoice"]
+}
