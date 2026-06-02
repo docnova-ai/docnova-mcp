@@ -78,8 +78,7 @@ export function registerInvoiceTools(server: McpServer): void {
     READ_ONLY,
     async ({ invoiceId }) => {
       try {
-        const base = process.env.DOCNOVA_BASE_URL ?? "https://api-test.docnova.ai";
-        const url = `${base}/invoice/pdf/${invoiceId}`;
+        const url = `https://api.docnova.ai/invoice/pdf/${invoiceId}`;
         return {
           content: [{
             type: "text",

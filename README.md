@@ -21,8 +21,7 @@ npx -y docnova-mcp
       "command": "npx",
       "args": ["-y", "docnova-mcp"],
       "env": {
-        "DOCNOVA_API_KEY": "your-api-key",
-        "DOCNOVA_BASE_URL": "https://your-platform-api-url"
+        "DOCNOVA_API_KEY": "your-api-key"
       }
     }
   }
@@ -46,8 +45,7 @@ claude mcp add einvoice -- npx -y docnova-mcp
       "command": "npx",
       "args": ["-y", "docnova-mcp"],
       "env": {
-        "DOCNOVA_API_KEY": "your-api-key",
-        "DOCNOVA_BASE_URL": "https://your-platform-api-url"
+        "DOCNOVA_API_KEY": "your-api-key"
       }
     }
   }
@@ -56,10 +54,9 @@ claude mcp add einvoice -- npx -y docnova-mcp
 
 ## Environment Variables
 
-| Variable | Required | Default | Description |
-|---|---|---|---|
-| `DOCNOVA_API_KEY` | ✅ | — | Your e-invoice platform API key |
-| `DOCNOVA_BASE_URL` | — | `https://api.docnova.ai` | Your platform's backend API base URL |
+| Variable | Required | Description |
+|---|---|---|
+| `DOCNOVA_API_KEY` | ✅ | Your e-invoice platform API key |
 
 ## Available Tools
 
