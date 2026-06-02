@@ -1,15 +1,16 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { apiGet } from "../api-client.js";
+import { READ_ONLY } from "../constants.js";
 
 export function registerCompanyTools(server: McpServer): void {
-  // --- company_get ---
   server.tool(
     "company_get",
     "Get company information including profile, user count, and credits.",
     {
       companyId: z.string().uuid().describe("Company UUID"),
     },
+    READ_ONLY,
     async ({ companyId }) => {
       try {
         const result = await apiGet("/company/get-company-info", { compId: companyId });
@@ -20,13 +21,13 @@ export function registerCompanyTools(server: McpServer): void {
     }
   );
 
-  // --- company_stats ---
   server.tool(
     "company_stats",
-    "Get invoice totals and financial summary for a company.",
+    "Get monthly invoice totals and financial summary for a company.",
     {
       companyId: z.string().uuid().describe("Company UUID"),
     },
+    READ_ONLY,
     async ({ companyId }) => {
       try {
         const result = await apiGet("/company/invoice-sum", { compId: companyId });

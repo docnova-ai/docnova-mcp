@@ -1,9 +1,9 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { apiGet, apiPost } from "../api-client.js";
+import { READ_ONLY, WRITE_OP } from "../constants.js";
 
 export function registerPartnerTools(server: McpServer): void {
-  // --- partner_search ---
   server.tool(
     "partner_search",
     "Search partners (customers/suppliers) for a company by name.",
@@ -13,12 +13,10 @@ export function registerPartnerTools(server: McpServer): void {
       page: z.number().int().min(0).default(0).describe("Page number"),
       size: z.number().int().min(1).max(100).default(20).describe("Page size"),
     },
+    READ_ONLY,
     async ({ companyId, partnerName, page, size }) => {
       try {
-        const params: Record<string, string> = {
-          page: String(page),
-          size: String(size),
-        };
+        const params: Record<string, string> = { page: String(page), size: String(size) };
         if (partnerName) params.partnerName = partnerName;
         const result = await apiGet(`/partner/list-by-company/${companyId}`, params);
         return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
@@ -28,13 +26,13 @@ export function registerPartnerTools(server: McpServer): void {
     }
   );
 
-  // --- partner_get ---
   server.tool(
     "partner_get",
     "Get full details of a single partner by UUID.",
     {
       partnerId: z.string().uuid().describe("Partner UUID"),
     },
+    READ_ONLY,
     async ({ partnerId }) => {
       try {
         const result = await apiGet(`/partner/get/${partnerId}`);
@@ -45,7 +43,6 @@ export function registerPartnerTools(server: McpServer): void {
     }
   );
 
-  // --- partner_create ---
   server.tool(
     "partner_create",
     "Create a new partner for a company. Provide a PartnerDto JSON object with AccountingCustomerParty.",
@@ -53,6 +50,7 @@ export function registerPartnerTools(server: McpServer): void {
       companyId: z.string().uuid().describe("Company UUID to attach the partner to"),
       partnerDto: z.record(z.unknown()).describe("PartnerDto JSON object including AccountingCustomerParty"),
     },
+    WRITE_OP,
     async ({ companyId, partnerDto }) => {
       try {
         const result = await apiPost(`/partner/save/${companyId}`, partnerDto);

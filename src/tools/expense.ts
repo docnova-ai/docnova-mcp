@@ -1,6 +1,7 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { apiPost } from "../api-client.js";
+import { READ_ONLY } from "../constants.js";
 
 const dateRange = {
   companyId: z.string().uuid().describe("Company UUID"),
@@ -14,7 +15,7 @@ function tool(
   description: string,
   path: (id: string) => string
 ) {
-  server.tool(name, description, dateRange, async ({ companyId, from, to }) => {
+  server.tool(name, description, dateRange, READ_ONLY, async ({ companyId, from, to }) => {
     try {
       const result = await apiPost(path(companyId), { from, to });
       return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };

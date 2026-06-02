@@ -45,7 +45,16 @@ async function request<T>(url: string, init: RequestInit): Promise<T> {
 
   if (!res.ok) {
     const text = await res.text();
-    throw new Error(`API ${res.status}: ${text}`);
+    const hint = res.status === 401
+      ? " Check that your DOCNOVA_API_KEY is valid."
+      : res.status === 403
+      ? " You may not have permission for this resource."
+      : res.status === 404
+      ? " The resource was not found. Check the ID is correct."
+      : res.status === 429
+      ? " Rate limit exceeded. Wait a moment before retrying."
+      : "";
+    throw new Error(`API ${res.status}:${hint} ${text}`.trim());
   }
 
   return res.json() as Promise<T>;
