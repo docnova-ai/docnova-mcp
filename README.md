@@ -59,7 +59,7 @@ claude mcp add einvoice -- npx -y docnova-mcp
 | Variable | Required | Default | Description |
 |---|---|---|---|
 | `DOCNOVA_API_KEY` | ✅ | — | Your e-invoice platform API key |
-| `DOCNOVA_BASE_URL` | — | `https://api-test.docnova.ai` | Your platform's backend API base URL |
+| `DOCNOVA_BASE_URL` | — | `https://api.docnova.ai` | Your platform's backend API base URL |
 
 ## Available Tools
 

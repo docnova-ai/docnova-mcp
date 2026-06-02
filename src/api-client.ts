@@ -1,6 +1,6 @@
 import { getJwt } from "./auth.js";
 
-const BASE_URL = process.env.DOCNOVA_BASE_URL ?? "https://api-test.docnova.ai";
+const BASE_URL = process.env.DOCNOVA_BASE_URL ?? "https://api.docnova.ai";
 
 export async function apiGet<T>(path: string, params?: Record<string, string>): Promise<T> {
   const url = new URL(`${BASE_URL}${path}`);

@@ -4,7 +4,7 @@
  * R-Auth header JWT bekliyor, Bearer prefix YOK.
  */
 
-const BASE_URL = process.env.DOCNOVA_BASE_URL ?? "https://api-test.docnova.ai";
+const BASE_URL = process.env.DOCNOVA_BASE_URL ?? "https://api.docnova.ai";
 const API_KEY = process.env.DOCNOVA_API_KEY!;
 
 interface TokenCache {
