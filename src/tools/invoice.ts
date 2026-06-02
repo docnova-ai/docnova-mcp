@@ -2,13 +2,22 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { apiGet, apiPost, apiPostMultipart } from "../api-client.js";
 import { CHARACTER_LIMIT, READ_ONLY, WRITE_OP } from "../constants.js";
+import { getDefaultCompanyId } from "../auth.js";
+
+const COMPANY_ID_FIELD = z.string().uuid().optional().describe("Company UUID. If omitted, uses your account's default company.");
+
+async function resolveCompanyId(provided?: string): Promise<string> {
+  const cid = provided ?? await getDefaultCompanyId();
+  if (!cid) throw new Error("companyId is required but could not be determined from your API key. Please provide it explicitly.");
+  return cid;
+}
 
 export function registerInvoiceTools(server: McpServer): void {
   server.tool(
     "invoice_search",
     "Search invoices with filters. Returns paged results including invoice list and currency totals.",
     {
-      companyId: z.string().uuid().describe("Company UUID (required)"),
+      companyId: COMPANY_ID_FIELD,
       documentType: z.enum(["INCOMING", "OUTGOING"]).optional().describe("Filter by direction"),
       status: z.string().optional().describe("Invoice status (e.g. APPROVED, REJECTED, PENDING)"),
       startDate: z.string().optional().describe("Issue date start, YYYY-MM-DD"),
@@ -20,8 +29,9 @@ export function registerInvoiceTools(server: McpServer): void {
     READ_ONLY,
     async (args) => {
       try {
+        const companyId = await resolveCompanyId(args.companyId);
         const result = await apiPost("/invoice/search", {
-          companyId: args.companyId,
+          companyId,
           documentType: args.documentType,
           status: args.status,
           startDate: args.startDate,
@@ -86,12 +96,13 @@ export function registerInvoiceTools(server: McpServer): void {
     "invoice_summary",
     "Get invoice count and amount summary for a company.",
     {
-      companyId: z.string().uuid().describe("Company UUID"),
+      companyId: COMPANY_ID_FIELD,
     },
     READ_ONLY,
     async ({ companyId }) => {
       try {
-        const result = await apiGet(`/invoice/summary/${companyId}`);
+        const cid = await resolveCompanyId(companyId);
+        const result = await apiGet(`/invoice/summary/${cid}`);
         return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
       } catch (e) {
         return { content: [{ type: "text", text: `Error: ${(e as Error).message}` }], isError: true };
