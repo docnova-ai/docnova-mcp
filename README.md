@@ -1,6 +1,6 @@
 # docnova-mcp
 
-MCP server for the [Docnova](https://docnova.ai) e-invoice platform. Add it to Claude Code or Claude Desktop to query invoices, partners, company data, and financial reports with natural language.
+MCP server for e-invoice platforms. Connect Claude Code or Claude Desktop to your e-invoice account to query invoices, partners, company data, and financial reports with natural language.
 
 ## Installation
 
@@ -17,12 +17,12 @@ npx -y docnova-mcp
 ```json
 {
   "mcpServers": {
-    "docnova": {
+    "einvoice": {
       "command": "npx",
       "args": ["-y", "docnova-mcp"],
       "env": {
         "DOCNOVA_API_KEY": "your-api-key",
-        "DOCNOVA_BASE_URL": "https://api.docnova.ai"
+        "DOCNOVA_BASE_URL": "https://your-platform-api-url"
       }
     }
   }
@@ -31,7 +31,7 @@ npx -y docnova-mcp
 
 Or via CLI:
 ```bash
-claude mcp add docnova -- npx -y docnova-mcp
+claude mcp add einvoice -- npx -y docnova-mcp
 ```
 
 ### Claude Desktop (`claude_desktop_config.json`)
@@ -42,12 +42,12 @@ claude mcp add docnova -- npx -y docnova-mcp
 ```json
 {
   "mcpServers": {
-    "docnova": {
+    "einvoice": {
       "command": "npx",
       "args": ["-y", "docnova-mcp"],
       "env": {
         "DOCNOVA_API_KEY": "your-api-key",
-        "DOCNOVA_BASE_URL": "https://api.docnova.ai"
+        "DOCNOVA_BASE_URL": "https://your-platform-api-url"
       }
     }
   }
@@ -58,8 +58,8 @@ claude mcp add docnova -- npx -y docnova-mcp
 
 | Variable | Required | Default | Description |
 |---|---|---|---|
-| `DOCNOVA_API_KEY` | ✅ | — | Your Docnova API key |
-| `DOCNOVA_BASE_URL` | — | `https://api-test.docnova.ai` | Backend API base URL |
+| `DOCNOVA_API_KEY` | ✅ | — | Your e-invoice platform API key |
+| `DOCNOVA_BASE_URL` | — | `https://api-test.docnova.ai` | Your platform's backend API base URL |
 
 ## Available Tools
 
@@ -105,4 +105,4 @@ npm run build        # compile to dist/
 ## Authentication
 
 Your API key is exchanged for a short-lived JWT automatically — no manual token management needed.
-Get your API key from Docnova portal → Settings → ERP Management → API Keys.
+Get your API key from your platform's portal → Settings → ERP Management → API Keys.

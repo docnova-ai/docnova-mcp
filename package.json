@@ -1,6 +1,6 @@
 {
   "name": "docnova-mcp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "MCP server for Docnova e-invoice platform",
   "type": "module",
   "bin": {
